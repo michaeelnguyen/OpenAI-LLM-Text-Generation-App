@@ -4,12 +4,12 @@ from pydantic import BaseModel
 
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain, SimpleSequentialChain
+from langchain.chains import LLMChain, SequentialChain
 
 # Create an instance of the FastAPI application
 app = FastAPI()
 
-# Configure CORS
+# Configure CORS to connect to different port mappings
 origins = [
     "http://localhost:3000",
 ]
@@ -30,11 +30,13 @@ class InputData(BaseModel):
 def process_data(input_data: InputData):
     option = input_data.option
     value = input_data.value
-    # Do something with the received value
+
     print("Received option:", option)
     print("Received value:", value)
-    # Perform your desired processing logic here
-    # Return a response if needed
+    
+    # Call OpenAI API call on user input
+
+    # Return a response back to React frontend
     return {"value": value}
 
 @app.get("/")
