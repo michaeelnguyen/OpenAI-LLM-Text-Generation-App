@@ -1,0 +1,40 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+    
+      - name: Build and test frontend
+        run: |
+          # Replace BACKEND_URL placeholder with the actual backend URL
+          sed -i "s|BACKEND_URL|${{ secrets.BACKEND_URL }}|g" frontend/r2d2-prototype-app/.env
+          npm install
+          npm run build
+          npm run test
+    
+      - name: Build and test backend
+        run: |
+          cd backend
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+          pytest
+    
+      - name: Deploy frontend
+        run: |
+          # Deploy the frontend using your chosen deployment method
+          # Use ${{ secrets.FRONTEND_URL }} as the frontend URL in your deployment configuration
+    
+      - name: Deploy backend
+        run: |
+          # Deploy the backend using your chosen deployment method
+          # Use ${{ secrets.BACKEND_URL }} as the backend URL in your deployment configuration

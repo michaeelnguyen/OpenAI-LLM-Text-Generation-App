@@ -1,10 +1,10 @@
 import os
-import boto3
 from apikeys import openai_api_key
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from mangum import Mangum
 
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
@@ -14,13 +14,9 @@ from langchain.chains import LLMChain, SequentialChain
 app = FastAPI()
 
 # Configure CORS to connect to different port mappings
-origins = [
-    "http://localhost:3000",
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["http://localhost:3000", "${{ secrets.FRONTEND_URL }}"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -37,9 +33,6 @@ os.environ['OPENAI_API_KEY'] = openai_api_key
 def process_data(input_data: InputData):
     option = input_data.option
     prompt = input_data.value
-
-    print("Received option:", option)
-    print("Received value:", prompt)
 
     # Create an instance of the OpenAI API
     openai = OpenAI()
@@ -106,3 +99,5 @@ def process_data(input_data: InputData):
 @app.get("/")
 def get_root():
     return {"message": "Hello. This is the backend!"}
+
+handler = Mangum(app)
