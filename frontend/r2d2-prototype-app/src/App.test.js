@@ -12,8 +12,8 @@ test('displays error message when prompt is not modified', () => {
   process.env.REACT_APP_BACKEND_URL = 'http://localhost:8000/';
 
   render(<App />);
-  const submitButton = screen.getByText('Submit');
+  const submitButton = screen.getByRole('button', { name: /submit/i });
   fireEvent.click(submitButton);
-  const errorMessage = screen.getByText('Please modify the initial prompt.');
+  const errorMessage = screen.getByText(/Please modify the initial prompt/i);
   expect(errorMessage).toBeInTheDocument();
 });
