@@ -12,8 +12,12 @@ test('displays error message when prompt is not modified', () => {
   process.env.REACT_APP_BACKEND_URL = 'http://localhost:8000/';
 
   render(<App />);
-  const submitButton = screen.getByRole('button', { name: /submit/i });
+  const selectedOption = screen.getByRole('button', { name: /marketgpt/i });
+  fireEvent.click(selectedOption);
+  
+  const submitButton = selectedOption.nextSibling;
   fireEvent.click(submitButton);
+
   const errorMessage = screen.getByText(/Please modify the initial prompt/i);
   expect(errorMessage).toBeInTheDocument();
 });
