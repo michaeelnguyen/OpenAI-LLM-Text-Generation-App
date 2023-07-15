@@ -52,7 +52,8 @@ function App() {
       }
       // Attempt to pass user input to the FastAPI backend
       try {
-        const response = await fetch(`${process.env.BACKEND_URL}/`, {
+        // console.log('Backend URL:', process.env.REACT_APP_BACKEND_URL);
+        const response = await fetch(process.env.REACT_APP_BACKEND_URL, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

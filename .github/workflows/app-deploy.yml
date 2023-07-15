@@ -1,0 +1,47 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy_frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: <your-aws-region>
+
+      - name: Deploy frontend to S3
+        working-directory: frontend/r2d2-prototype-app
+        run: |
+          # Add your deployment commands here
+          # Example: aws s3 sync build/ s3://your-bucket-name
+
+  deploy_backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: <your-aws-region>
+
+      - name: Deploy backend to AWS Lambda
+        working-directory: backend
+        run: |
+          # Add your deployment commands here
+          # Example: aws lambda update-function-code --function-name your-function-name --zip-file fileb://lambda_function.zip

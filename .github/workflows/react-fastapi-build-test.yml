@@ -16,7 +16,7 @@ jobs:
       - name: Build and test frontend
         working-directory: frontend/r2d2-prototype-app
         run: |
-          echo "BACKEND_URL=${{ secrets.BACKEND_URL }}" >> .env
+          echo "REACT_APP_BACKEND_URL=${{ secrets.REACT_APP_BACKEND_URL }}" >> .env
           npm install
           npm run build
           npm run test
@@ -29,6 +29,7 @@ jobs:
           cd backend
           python -m venv .venv
           source .venv/bin/activate
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
           pip install -r requirements.txt
           pytest
     

@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -25,22 +26,29 @@ class InputData(BaseModel):
     option: str
     value: str
 
-# Retrieve OpenAI API key from GitHub Actions repository secret
+# Load environment variables from .env file
+load_dotenv()
+
+# Retrieve OpenAI API key from environment variable
 openai_api_key = os.getenv('OPENAI_API_KEY')
+
+# Check if the API key is set
+if openai_api_key is None:
+    raise ValueError('OpenAI API key is not set')
 
 # Set the OpenAI API key in the environment variable
 os.environ['OPENAI_API_KEY'] = openai_api_key
-
-# Create an instance of the OpenAI API
-openai = OpenAI(openai_api_key=openai_api_key)
 
 @app.post("/")
 def process_data(input_data: InputData):
     option = input_data.option
     prompt = input_data.value
 
+    print('Option:', option)
+    print('Prompt:', prompt)
+
     # Create an instance of the OpenAI API
-    openai = OpenAI()
+    openai = OpenAI(openai_api_key=openai_api_key)
 
     if prompt and option == 'MarketGPT':
         # Prompt templates defined for multiple task to obtain competitors research for specific company.
