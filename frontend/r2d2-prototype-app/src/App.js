@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import './App.css';
 
 function App() {
-  // Define the options for different features and their corresponding prompts
+  // Define the options for the use cases and their corresponding prompts
   const options = [
     { label: 'MarketGPT', prompt: 'Enter the company name to perform competitor research.' },
-    { label: 'Personalized Email Outreach', prompt: 'Create an email for [Recipient] regarding [Subject].' },
-    { label: 'Social Media Posting', prompt: 'Create a social media post on [Platform] and talk about [Topic].' }
+    { label: 'Personalized Email Outreach', prompt: 'Generate email content for [Recipient] about [Subject].' },
+    { label: 'Social Media Posting', prompt: 'Create a Twitter post about [Topic].' }
   ];
 
+  // State variable definitions
   const [value, setValue] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
   const [initialPrompt, setInitialPrompt] = useState('');
@@ -29,10 +30,11 @@ function App() {
   const handleChoiceClick = (option) => {
     setSelectedOption(option);
     setValue(option.label === 'MarketGPT' ? '' : option.prompt);
-    setInitialPrompt(option.prompt);
+    setInitialPrompt(option.label === 'MarketGPT' ? '' : option.prompt);
     setErrorMsg('');
     setOutputMsg('');
   };
+  
 
   // Handle clear btn functionality to reset to default text values
   const handleClear = () => {
@@ -48,8 +50,7 @@ function App() {
         setErrorMsg('Please modify the initial prompt.');
         return;
       }
-      console.log('Selected button:', selectedOption.label);
-      console.log('Value:', value);
+      // Attempt to pass user input to the FastAPI backend
       try {
         const response = await fetch('http://127.0.0.1:8000/', {
           method: 'POST',
@@ -61,28 +62,27 @@ function App() {
             value: value 
           }),
         });
-
+        // If FastAPI and Langchain API call are successful return the generated response
         if (response.ok) {
           const responseOutput = await response.json();
-          console.log('Response from backend:', responseOutput);
           setOutputMsg(responseOutput.value);
         } else {
-          console.error('Error:', response.status);
-          // Handle error case
+          console.error('Status Error:', response.status);
         }
       } catch (error) {
         console.error('Error:', error);
-        // Handle network or request errors
       }
     }
   };
 
+  // Start of the main component render
   return (
     <div className="App">
       <header className="App-header">
         <div className="app-info">
           <h1>Welcome to the R2D2 Prototype!</h1>
           <div className="app-choices">
+            {/* Define the use cases as buttons */}
             {options.map((option) => (
               <button
                 key={option.label}
@@ -96,18 +96,17 @@ function App() {
         </div>
       </header>
       <main className="App-body">
-      {errorMsg && (
+        {/* Display error message when user doesnt enter custom prompt */}
+        {errorMsg && (
           <div className="error-msg">
             {errorMsg}
           </div>
         )}
+        {/* Handle state of the textarea input and the Clear and Submit btns */}
         {selectedOption && (
           <section className="textbox">
             <div className="prompt-input">
-              <textarea
-                className="prompt-textarea"
-                value={value}
-                placeholder={selectedOption.label === 'MarketGPT' ? selectedOption.prompt : ''}
+              <textarea className="prompt-textarea" value={value} placeholder={selectedOption ? selectedOption.prompt : ''}
                 onChange={handleChange}
                 onInput={handleResize}
               ></textarea>
@@ -122,9 +121,23 @@ function App() {
             </div>
           </section>
         )}
+        {/* If response was sent back from the FastAPI backend, display output from OpenAI */}
         {outputMsg && (
           <div className="output-msg">
-            {outputMsg}
+            {selectedOption.label === 'MarketGPT' ? (
+              <div>
+                {/* Handle MarketGPT case separately since we return key, value pairs */}
+                {Object.entries(outputMsg).map(([section, response]) => (
+                <div key={section}>
+                  <h4>{section}</h4>
+                  <p>{response}</p>
+                </div>
+                ))}
+              </div>
+            ) : (
+              // Personalized email and social media posting should just return a string
+              <p>{outputMsg}</p>
+            )}
           </div>
         )}
       </main>
