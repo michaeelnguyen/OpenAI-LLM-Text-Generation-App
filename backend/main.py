@@ -1,5 +1,4 @@
 import os
-from apikeys import openai_api_key
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -26,8 +25,14 @@ class InputData(BaseModel):
     option: str
     value: str
 
-# Retrieve OpenAI API key from environment variable
+# Retrieve OpenAI API key from GitHub Actions repository secret
+openai_api_key = os.getenv('OPENAI_API_KEY')
+
+# Set the OpenAI API key in the environment variable
 os.environ['OPENAI_API_KEY'] = openai_api_key
+
+# Create an instance of the OpenAI API
+openai = OpenAI(openai_api_key=openai_api_key)
 
 @app.post("/")
 def process_data(input_data: InputData):
