@@ -12,11 +12,13 @@ describe('App', () => {
 
   test('displays error message when prompt is not modified', () => {
     render(<App />);
-    const submitButton = screen.getByText(/Submit/i);
+    const submitButton = screen.getByText((content, element) => {
+      return element.tagName.toLowerCase() === 'button' && /Submit/i.test(content);
+    });
     fireEvent.click(submitButton);
     const errorMessage = screen.getByText(/Please modify the initial prompt./i);
     expect(errorMessage).toBeInTheDocument();
-  });
+  });  
 
   // Add more test cases as needed
 });
