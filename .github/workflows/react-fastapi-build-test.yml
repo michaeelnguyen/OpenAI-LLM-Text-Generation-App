@@ -15,11 +15,11 @@ jobs:
     
       - name: Build and test frontend
         run: |
-          # Replace BACKEND_URL placeholder with the actual backend URL
-          sed -i "s|BACKEND_URL|${{ secrets.BACKEND_URL }}|g" frontend/r2d2-prototype-app/.env
+          echo "BACKEND_URL=${{ secrets.BACKEND_URL }}" >> frontend/r2d2-prototype-app/.env
           npm install
           npm run build
           npm run test
+      
     
       - name: Build and test backend
         run: |
