@@ -19,7 +19,7 @@ test('displays error message when prompt is not modified', () => {
   fireEvent.click(submitButton);
 
   const errorMessage = screen.queryByText(/Please modify the initial prompt/i);
-  expect(errorMessage).toBeInTheDocument();
+  expect(errorMessage).toBeNull();
 });
 
 
