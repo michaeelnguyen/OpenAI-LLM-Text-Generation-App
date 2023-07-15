@@ -16,7 +16,7 @@ jobs:
       - name: Build and test frontend
         working-directory: frontend/r2d2-prototype-app
         run: |
-          echo "BACKEND_URL=${{ secrets.BACKEND_URL }}" >> frontend/r2d2-prototype-app/.env
+          echo "BACKEND_URL=${{ secrets.BACKEND_URL }}" >> .env
           npm install
           npm run build
           npm run test
