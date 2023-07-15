@@ -23,12 +23,14 @@ jobs:
       
     
       - name: Build and test backend
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           cd backend
           python -m venv .venv
           source .venv/bin/activate
           pip install -r requirements.txt
-          pytest --env OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}"
+          pytest
     
       - name: Deploy frontend
         run: |
