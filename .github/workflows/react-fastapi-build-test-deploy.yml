@@ -97,9 +97,5 @@ jobs:
         working-directory: backend
         run: aws s3 cp lambda_function.zip s3://r2d2-prototype-fastapi-backend
     
-      #
-      # - name: Deploy backend to AWS Lambda
-      #   working-directory: backend
-      #   run: |
-      #     # Add your deployment commands here
-      #     # Example: aws lambda update-function-code --function-name your-function-name --zip-file fileb://lambda_function.zip
+      - name: Deploy backend zip file to Lambda
+        run: aws lambda update-function-code --function-name r2d2-prototype-fastapi-lambda --s3-bucket r2d2-prototype-fastapi-backend --s3-key lambda_function.zip
