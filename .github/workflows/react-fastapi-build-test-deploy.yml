@@ -33,10 +33,11 @@ jobs:
           pytest tests
 
       - name: Cache virtual environment
+        id: cache-venv
         uses: actions/cache@v2
         with:
           path: backend/.venv
-          key: venv-${{ runner.os }}-${{ hashFiles('backend/.venv') }}
+          key: venv-${{ runner.os }}-${{ hashFiles('backend/requirements.txt') }}
           restore-keys: |
             venv-${{ runner.os }}-
 
