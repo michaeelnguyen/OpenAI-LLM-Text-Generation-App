@@ -44,6 +44,7 @@ jobs:
       - name: Create Lambda deployment package
         run: |
           cd backend
+          python -m venv .venv
           source .venv/bin/activate
           cd .venv/lib/python3.9/site-packages
           zip -r9 ../../../../lambda_function.zip .
