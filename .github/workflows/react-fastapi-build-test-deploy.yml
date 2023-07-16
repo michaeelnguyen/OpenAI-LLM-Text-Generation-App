@@ -45,7 +45,7 @@ jobs:
         run: |
           cd backend
           source .venv/bin/activate
-          cd .venv/lib/python3.9/site-packages
+          cd .venv/lib/python3.10/site-packages
           zip -r9 ../../../../lambda_function.zip .
           cd ../../../../
           zip -g lambda_function.zip app/main.py
