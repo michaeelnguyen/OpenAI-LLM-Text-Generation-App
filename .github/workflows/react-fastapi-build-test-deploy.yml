@@ -74,7 +74,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build-artifact
-          path: frontend
+          path: frontend/r2d2-prototype-app
 
       - name: Download FastAPI zip file artifact
         uses: actions/download-artifact@v2
