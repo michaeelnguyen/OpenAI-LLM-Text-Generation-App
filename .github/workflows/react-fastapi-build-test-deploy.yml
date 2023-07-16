@@ -63,6 +63,7 @@ jobs:
           name: lambda_function
           path: backend/lambda_function.zip
 
+
   CD:
       runs-on: ubuntu-latest
       needs: [CI]
@@ -109,4 +110,8 @@ jobs:
             --s3-key lambda_function.zip
           aws lambda update-function-configuration \
             --function-name r2d2-prototype-fastapi-lambda \
-            --environment "Variables={FRONTEND_URL=$FRONTEND_URL,OPENAI_API_KEY=$OPENAI_API_KEY}"
+            --environment "Variables={
+              FRONTEND_URL=$FRONTEND_URL,
+              OPENAI_API_KEY=$OPENAI_API_KEY
+              }"
+          
