@@ -26,7 +26,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           cd backend
-          python3.9 -m venv .venv
+          python -m venv .venv
           source .venv/bin/activate
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
           pip install -r requirements.txt
