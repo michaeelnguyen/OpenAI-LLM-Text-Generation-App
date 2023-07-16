@@ -54,9 +54,8 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: lambda_function
-          path: lambda_function.zip
+          path: backend/lambda_function.zip
         
-
   CD:
       runs-on: ubuntu-latest
       needs: [CI]
