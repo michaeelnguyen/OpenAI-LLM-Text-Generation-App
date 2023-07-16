@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Ring } from '@uiball/loaders'
 import './App.css';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
   const [initialPrompt, setInitialPrompt] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [outputMsg, setOutputMsg] = useState('');
+  const [loading, setLoading] = useState(false);
 
   // Handle textArea change and resizing based user input
   const handleChange = (event) => {
@@ -33,6 +35,7 @@ function App() {
     setInitialPrompt(option.label === 'MarketGPT' ? '' : option.prompt);
     setErrorMsg('');
     setOutputMsg('');
+    setLoading(false);
   };
   
 
@@ -41,6 +44,7 @@ function App() {
     setValue(selectedOption.label === 'MarketGPT' ? '' : initialPrompt);
     setErrorMsg('');
     setOutputMsg('');
+    setLoading(false);
   };
 
   // Handle submit btn functionality to send POST request of user input to FastAPI backend
@@ -50,9 +54,11 @@ function App() {
         setErrorMsg('Please modify the initial prompt.');
         return;
       }
+
+      setLoading(true);
+
       // Attempt to pass user input to the FastAPI backend
       try {
-        // console.log('Backend URL:', process.env.REACT_APP_BACKEND_URL);
         const response = await fetch(process.env.REACT_APP_BACKEND_URL, {
           method: 'POST',
           headers: {
@@ -72,6 +78,8 @@ function App() {
         }
       } catch (error) {
         console.error('Error:', error);
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -122,6 +130,7 @@ function App() {
             </div>
           </section>
         )}
+        {loading && <Ring size={35} color="#379da1" />}
         {/* If response was sent back from the FastAPI backend, display output from OpenAI */}
         {outputMsg && (
           <div className="output-msg">
