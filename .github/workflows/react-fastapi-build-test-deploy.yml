@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  build:
+  CI:
     runs-on: ubuntu-latest
 
     steps:
@@ -49,7 +49,27 @@ jobs:
           zip -r9 ../../../../lambda_function.zip .
           cd ../../../../
           zip -g lambda_function.zip app/main.py
-            
+
+      - name: Upload zip file artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: lambda_function
+          path: lambda_function.zip
+        
+  CD:
+      runs-on: ubuntu-latest
+      needs: [CI]
+
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download zip file artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: lambda_function
+          path: .
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -64,7 +84,6 @@ jobs:
       - name: Deploy backend zip file to S3
         working-directory: backend
         run: aws s3 cp lambda_function.zip s3://r2d2-prototype-fastapi-backend
-    
     
       # - name: Deploy backend to AWS Lambda
       #   working-directory: backend

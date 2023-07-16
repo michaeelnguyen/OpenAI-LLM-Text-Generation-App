@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 
 apikeys.py
+lambda_function.zip
