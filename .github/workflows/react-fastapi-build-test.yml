@@ -30,7 +30,14 @@ jobs:
           source .venv/bin/activate
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
           pip install -r requirements.txt
-          pytest
+          pytest tests
+
+      - name: Create Lambda deployment package
+        run: |
+          cd ./.venv/lib/python3.9/site-packages
+          zip -r9 ../../../../lambda_function.zip .
+          cd ../../../../
+          zip -g lambda_function.zip -r app
     
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -39,6 +46,16 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
   
-      - name: Deploy frontend to S3
+      # - name: Deploy frontend to S3
+      #   working-directory: frontend/r2d2-prototype-app
+      #   run: aws s3 sync build/ s3://r2d2-prototype-react-app
+
+      - name: Deploy backend zip file to S3
         working-directory: frontend/r2d2-prototype-app
-        run: aws s3 sync build/ s3://r2d2-prototype-react-app
+        run: aws s3 sync build/ s3://r2d2-prototype-fastapi-backend
+
+      # - name: Deploy backend to AWS Lambda
+      #   working-directory: backend
+      #   run: |
+      #     # Add your deployment commands here
+      #     # Example: aws lambda update-function-code --function-name your-function-name --zip-file fileb://lambda_function.zip
