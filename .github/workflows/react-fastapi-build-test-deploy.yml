@@ -35,6 +35,7 @@ jobs:
           python -m venv .venv
           source .venv/bin/activate
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
+          echo "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
           pip install -r requirements.txt
           pytest tests
 
@@ -98,4 +99,12 @@ jobs:
         run: aws s3 cp lambda_function.zip s3://r2d2-prototype-fastapi-backend
     
       - name: Deploy backend zip file to Lambda
-        run: aws lambda update-function-code --function-name r2d2-prototype-fastapi-lambda --s3-bucket r2d2-prototype-fastapi-backend --s3-key lambda_function.zip
+        env:
+          FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          aws lambda update-function-code \
+            --function-name r2d2-prototype-fastapi-lambda \
+            --s3-bucket r2d2-prototype-fastapi-backend \
+            --s3-key lambda_function.zip \
+            --environment "Variables={FRONTEND_URL=$FRONTEND_URL, OPENAI_API_KEY=$OPENAI_API_KEY}"
