@@ -74,7 +74,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build-artifact
-          path: frontend
+          path: frontend/r2d2-prototype-app/build
 
       - name: Download FastAPI zip file artifact
         uses: actions/download-artifact@v2
@@ -91,7 +91,7 @@ jobs:
   
       - name: Deploy frontend to S3
         working-directory: frontend
-        run: aws s3 sync r2d2-prototype-app/build s3://r2d2-prototype-react-app
+        run: aws s3 sync r2d2-prototype-app/build/ s3://r2d2-prototype-react-app
 
       - name: Deploy backend zip file to S3
         working-directory: backend
