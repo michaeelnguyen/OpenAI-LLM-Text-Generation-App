@@ -108,6 +108,9 @@ jobs:
             --function-name r2d2-prototype-fastapi-lambda \
             --s3-bucket r2d2-prototype-fastapi-backend \
             --s3-key lambda_function.zip
+          
+          sleep 30
+
           aws lambda update-function-configuration \
             --function-name r2d2-prototype-fastapi-lambda \
             --environment "Variables={
