@@ -62,9 +62,10 @@ jobs:
       #   run: aws s3 sync build/ s3://r2d2-prototype-react-app
 
       - name: Deploy backend zip file to S3
+        working-directory: backend
         run: aws s3 cp lambda_function.zip s3://r2d2-prototype-fastapi-backend
     
-
+    
       # - name: Deploy backend to AWS Lambda
       #   working-directory: backend
       #   run: |
