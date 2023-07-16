@@ -56,6 +56,7 @@ jobs:
           name: lambda_function
           path: lambda_function.zip
         
+
   CD:
       runs-on: ubuntu-latest
       needs: [CI]
@@ -68,7 +69,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: lambda_function
-          path: .
+          path: backend
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
