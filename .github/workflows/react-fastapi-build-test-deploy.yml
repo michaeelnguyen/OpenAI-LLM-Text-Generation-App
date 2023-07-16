@@ -36,7 +36,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: backend/.venv
-          key: venv-${{ runner.os }}-${{ hashFiles('backend/requirements.txt') }}
+          key: venv-${{ runner.os }}-${{ hashFiles('backend/.venv') }}
           restore-keys: |
             venv-${{ runner.os }}-
 
