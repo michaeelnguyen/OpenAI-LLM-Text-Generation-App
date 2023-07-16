@@ -130,6 +130,7 @@ function App() {
             </div>
           </section>
         )}
+        {/* Loading animation after user input submitted */}
         {loading && <Ring size={35} color="#379da1" />}
         {/* If response was sent back from the FastAPI backend, display output from OpenAI */}
         {outputMsg && (

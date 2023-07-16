@@ -47,9 +47,6 @@ def process_data(input_data: InputData):
     option = input_data.option
     prompt = input_data.value
 
-    print('Option:', option)
-    print('Prompt:', prompt)
-
     # Create an instance of the OpenAI API
     openai = OpenAI(openai_api_key=openai_api_key)
 
@@ -115,5 +112,11 @@ def process_data(input_data: InputData):
 @app.get("/")
 def get_root():
     return {"message": "Hello. This is the backend!"}
+  
+# Mangum is an ASGI adapter that acts as a compatibility layer between 
+# ASGI protocol and the event-driven AWS Lambda execution environment. 
+# This allows ASGI apps like FastAPI to take advantage serverless scalability,
+# costs and auto-scaling. The handler is defined in AWS Lambda Runtime settings 
+# as 'app.main.handler'.
 
 handler = Mangum(app)

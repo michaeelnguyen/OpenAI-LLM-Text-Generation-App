@@ -39,14 +39,14 @@ jobs:
           pip install -r requirements.txt
           pytest tests
 
-      - name: Cache virtual environment
-        id: cache-venv
-        uses: actions/cache@v2
-        with:
-          path: backend/.venv
-          key: venv-${{ runner.os }}-${{ hashFiles('backend/requirements.txt') }}
-          restore-keys: |
-            venv-${{ runner.os }}-
+      # - name: Cache virtual environment
+      #   id: cache-venv
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: backend/.venv
+      #     key: venv-${{ runner.os }}-${{ hashFiles('backend/requirements.txt') }}
+      #     restore-keys: |
+      #       venv-${{ runner.os }}-
 
       - name: Create Lambda deployment package
         run: |
