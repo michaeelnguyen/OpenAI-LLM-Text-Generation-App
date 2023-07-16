@@ -90,9 +90,11 @@ jobs:
           aws-region: us-east-1
   
       - name: Deploy frontend to S3
-        run: aws s3 sync frontend/r2d2-prototype-app/build s3://r2d2-prototype-react-app
+        working-directory: frontend
+        run: aws s3 sync r2d2-prototype-app/build s3://r2d2-prototype-react-app
 
       - name: Deploy backend zip file to S3
+        working-directory: backend
         run: aws s3 cp lambda_function.zip s3://r2d2-prototype-fastapi-backend
     
       # - name: Deploy backend to AWS Lambda
