@@ -16,7 +16,10 @@ app = FastAPI()
 # Configure CORS to connect to different port mappings
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "${{ secrets.FRONTEND_URL }}"],
+    allow_origins=[
+        "http://localhost:3000", 
+        "http://r2d2-prototype-react-app.s3-website-us-east-1.amazonaws.com/"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
