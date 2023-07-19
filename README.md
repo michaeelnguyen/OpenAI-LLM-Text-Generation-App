@@ -108,28 +108,43 @@ Tech Stack:
 
 <br>
 
-5. GitHub Actions (CI/CD):
-    - Define the required GitHub Actions Repository Secrets in the repository settings, including:
+5. Create and set up GitHub Actions (CI/CD) pipeline:
+    - Create the required GitHub Actions Repository Secrets under the Repository Settings > Security > Secrets and variables > Actions.
+    - Define the Name for each of the variables below and provide the corresponding Secret value.
         - `REACT_APP_BACKEND_URL`
+        - `FRONTEND_URL`
         - `OPENAI_API_KEY`
         - `AWS_ACCESS_KEY_ID`
         - `AWS_SECRET_ACCESS_KEY`
-        - Define the workflow file in `.github/workflows` for building, testing, and deploying the app.
-    - CI:
-        - React:
-            - Build and run tests.
-            - Run `npm run build` for a production build.
-            - Upload the created directory (`/build`) as an artifact for CD job steps.
-        - FastAPI:
-            - Create a virtual environment, install dependencies, and run tests.
-            - Zip the required Python site-packages and the app directory into `lambda_function.zip`.
-            - Upload the zip file as an artifact for CD job steps.
-    - CD:
-        - Download the React build artifact and FastAPI zip file artifact from the CI job.
-        - Define and configure AWS credentials.
-        - Deploy the React build artifact and FastAPI zip file artifact in their respective S3 buckets.
-        - Deploy the FastAPI zip file from the S3 bucket to the AWS Lambda function, including the OpenAI API key and the React frontend URL located in the S3 bucket properties under static website hosting.
-- The GitHub Action CI/CD workflow executes when code is push event to the `main` branch occurs.
+   - Create a `.github/workflows` directory.
+   - Create the workflow file in the directory recently created called `react-fastapi-build-test-deploy.yml` for building, testing, and deploying the app.
+   - In `react-fastapi-build-test-deploy.yml` define the CI and CD job and the following steps in each job:
+        - CI:
+            - React:
+                - Pass and import `REACT_APP_BACKEND_URL` Secret as environment variables.
+                - Install `npm install` and `npm run build` to install dependencies and create a production build.
+                - `npm run test` to run tests from `App.test.js`
+                - Upload the created directory (`/build`) as an artifact for CD job steps.
+            - FastAPI:
+                - Create a virtual environment, run virtual environment, and install dependencies from `requirements.txt`
+                - Pass and import `OPENAI_API_KEY` and `FRONT_END_URL` Secret as environment variables
+                - Run tests for main.py using `pytest tests`.
+                - Zip the required Python site-packages and the app directory into `lambda_function.zip`.
+                - Upload the zip file as an artifact for CD job steps.
+        - CD:
+            - Download the React build artifact and FastAPI zip file artifact from the CI job.
+            - Define and configure AWS credentials.
+            - Deploy the React build artifact and FastAPI zip file artifact in their respective S3 buckets.
+            - Deploy the FastAPI zip file from the S3 bucket to the AWS Lambda function using `aws lambda update-function-code` to import backend zip file to Lambda.
+            - Run `aws lambda update-function-configuration` to pass over `OPENAI_API_KEY` and `FRONT_END_URL` secret to AWS Lambda environment.
+
+<br>
+
+6. Execute CI/CD pipeline: Push R2D2 code repository to the `main` branch from the 'development' branch to execute CI/CD workflow.
+
+<br>
+
+7. Create AWS CloudWatch Dashboards: The creation of the S3 buckets, API Gateway, and Lambda will automatically generate dashboards and metrics pertaining to the AWS services used: S3, API Gateway, Lambda. To view their respective dashboard, go to the AWS Management Console and select/navigate to CloudWatch. Afterward, navigate to Dashboards > Automatic Dashboards and select S3, API Gateway, or Lambda. 
 
 These instructions will guide you through the setup, usage, and deployment of your application.
 
