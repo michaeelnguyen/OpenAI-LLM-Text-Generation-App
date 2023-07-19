@@ -140,7 +140,7 @@ Tech Stack:
 
 <br>
 
-6. Execute CI/CD pipeline: Push R2D2 code repository to the `main` branch from the 'development' branch to execute CI/CD workflow.
+6. Execute CI/CD pipeline: Push R2D2 code repository to the `main` branch from the `develop` branch to execute CI/CD workflow.
 
 <br>
 
