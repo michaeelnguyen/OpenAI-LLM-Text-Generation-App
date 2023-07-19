@@ -144,7 +144,7 @@ Tech Stack:
 
 <br>
 
-7. Create AWS CloudWatch Dashboards: The creation of the S3 buckets, API Gateway, and Lambda will automatically generate dashboards and metrics pertaining to the AWS services used: S3, API Gateway, Lambda. To view their respective dashboard, go to the AWS Management Console and select/navigate to CloudWatch. Afterward, navigate to Dashboards > Automatic Dashboards and select S3, API Gateway, or Lambda. No action is required from the developer(s) unless custom metrics are required.
+7. Create AWS CloudWatch Monitoring/Dashboards: The creation of the S3 buckets, API Gateway, and Lambda will automatically generate dashboards and metrics for monitoring that pertain to the AWS services used: S3, API Gateway, Lambda. To view their respective dashboard, go to the AWS Management Console and select/navigate to CloudWatch. Afterward, navigate to Dashboards > Automatic Dashboards and select S3, API Gateway, or Lambda. No action is required from the developer(s) unless custom metrics are required.
 
 These instructions will guide you through the setup, usage, and deployment of your application.
 
