@@ -140,7 +140,7 @@ Tech Stack:
 
 <br>
 
-6. Execute CI/CD pipeline: Push R2D2 code repository to the `main` branch from the `develop` branch to execute CI/CD workflow.
+6. Trigger the CI/CD pipeline: Merge the changes from the `develop` branch into the `main` branch and push the updated `main` branch to the remote repository. The CI/CD pipeline will be automatically executed upon detecting the changes, as defined in the `.github/workflows/react-fastapi-build-test-deploy.yml` file.
 
 <br>
 
