@@ -1,4 +1,4 @@
-# R2D2 Prototype
+# OpenAI Text Generation App
 
 Cloud application that makes use of OpenAI LLM through Langchain framework to generate custom prompts.
 
