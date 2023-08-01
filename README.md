@@ -1,6 +1,6 @@
 # OpenAI Text Generation App
 
-Cloud application that makes use of OpenAI LLM through Langchain framework to generate custom prompts.
+Cloud application that makes use of OpenAI LLM through Langchain framework to generate custom prompts. [Video Demo](https://drive.google.com/file/d/1nY-Pgiy_U9_SESY23rXaqHFEPOQgxoy9/view?usp=sharing)
 
 Tech Stack:
 - Frontend: React
